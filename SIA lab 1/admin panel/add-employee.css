@@ -1,0 +1,329 @@
+/* Reset and base styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  background: linear-gradient(145deg, #1e3c72, #2a5298);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper {
+  padding: 20px;
+  width: 100%;
+  max-width: 500px;
+}
+
+/* Back Button */
+.back-btn {
+  display: inline-block;
+  margin-bottom: 15px;
+  color: #fff;
+  font-size: 14px;
+  text-decoration: none;
+  background-color: #2a5298;
+  padding: 8px 14px;
+  border-radius: 6px;
+  transition: background 0.3s ease;
+}
+
+.back-btn:hover {
+  background-color: #1e3c72;
+}
+
+/* Form Box */
+.login-box {
+  background: #fff;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  margin-bottom: 30px;
+}
+
+.logo h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #333;
+}
+
+.logo .highlight {
+  color: #2a5298;
+}
+
+form h3 {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.input-group {
+  margin-bottom: 18px;
+}
+
+.input-group label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #555;
+}
+
+.input-group input[type="text"],
+.input-group input[type="file"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.input-group input:focus {
+  border-color: #2a5298;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(42, 82, 152, 0.2);
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background-color: #2a5298;
+  color: #fff;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #1e3c72;
+}
+
+.register {
+  text-align: center;
+  margin-top: 12px;
+}
+
+.register a {
+  color: #2a5298;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.register a:hover {
+  text-decoration: underline;
+}
+
+/* Position Buttons */
+.position-buttons {
+  display: flex;
+  gap: 10px;
+  margin: 8px 0 18px;
+}
+
+.position-buttons button {
+  flex: 1;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #f7f7f7;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.position-buttons button.selected {
+  background-color: #2a5298;
+  color: white;
+  border-color: #2a5298;
+}
+
+/* Employee Card Styles */
+.employee-card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  background: #f9f9f9;
+}
+
+.employee-card input {
+  padding: 6px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  flex: 1 1 120px;
+}
+
+.employee-photo {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.employee-card button {
+  padding: 6px 10px;
+  font-size: 13px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #2a5298;
+  color: #fff;
+  transition: 0.2s ease;
+}
+
+.employee-card button.delete {
+  background-color: #e53935;
+}
+
+.employee-card button:hover {
+  opacity: 0.9;
+}
+
+.role-label {
+  font-size: 13px;
+  color: #333;
+  background: #eee;
+  padding: 5px 8px;
+  border-radius: 6px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .login-box {
+    padding: 25px 20px;
+  }
+
+  .logo h2 {
+    font-size: 24px;
+  }
+
+  button[type="submit"] {
+    font-size: 15px;
+    padding: 10px;
+  }
+
+  .position-buttons button {
+    font-size: 13px;
+    padding: 9px;
+  }
+
+  .employee-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .employee-card input {
+    width: 100%;
+  }
+
+  .employee-card button {
+    width: 100%;
+  }
+}
+
+/* === Updated Employee List Section === */
+
+.employee-list h3 {
+  color: #fff;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 24px;
+}
+
+/* Grid layout */
+.employee-list ul {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(2, auto); /* 3 rows per column */
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  justify-content: center;
+}
+
+/* Each employee card */
+.employee-list li {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.employee-list li img {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+.employee-list .role-label {
+  margin-bottom: 10px;
+  background: #eee;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #444;
+}
+
+.employee-list input[type="text"] {
+  margin: 6px 0;
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.employee-list button {
+  margin: 6px 3px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: 0.2s ease-in-out;
+}
+
+.employee-list button:hover {
+  opacity: 0.9;
+}
+
+.employee-list button:nth-of-type(1) {
+  background-color: #2a5298;
+  color: #fff;
+}
+
+.employee-list button:nth-of-type(2) {
+  background-color: #f44336;
+  color: #fff;
+}
+
+/* Responsive grid fix */
+@media (max-width: 768px) {
+  .employee-list ul {
+    grid-auto-flow: row;
+    grid-template-rows: none;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+}
+
+

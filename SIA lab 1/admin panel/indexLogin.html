@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+  <header class="dashboard-header">
+    <h1><span class="highlight">Admin</span> Dashboard</h1>
+    <button id="logoutBtn" onclick="logout()">Logout</button>
+  </header>
+
+  <main class="dashboard-main">
+    <!-- Action Buttons -->
+    <div class="dashboard-actions">
+      <a href="add-employee.html" class="action-btn">➕ Add Employee</a>
+      <a href="add-products.html" class="action-btn">➕ Add Product</a>  
+    </div>
+
+    <!-- Cards -->
+    <div class="card">
+      <h2>Total Sales</h2>
+      <p id="salesAmount">₱0.00</p>
+    </div>
+
+    <div class="card">
+      <h2>Total Employees</h2>
+      <p id="employeeCount">0</p>
+    </div>
+
+    <div class="card">
+      <h2>Inventory Items</h2>
+      <p id="inventoryCount">0</p>
+    </div>
+
+    <!-- Sales Chart -->
+    <div class="full-width-card">
+      <h2>Monthly Sales Overview</h2>
+      <canvas id="salesChart" height="100"></canvas>
+    </div>
+
+    <!-- Employee List -->
+    <div class="full-width-card">
+      <h2>Employees</h2>
+      <div class="employee-grid"></div>
+    </div>
+
+    <!-- Inventory Table -->
+    <div class="full-width-card">
+      <h2>Inventory</h2>
+      <table class="inventory-table">
+        <thead>
+          <tr>
+            <th>Item Name</th>
+            <th>Stock Available</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Rendered via JS -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ✅ Customer Orders Table -->
+    <div class="full-width-card">
+      <h2>🧑‍💼 Customer Orders</h2>
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Email</th>
+            <th>Items</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody id="ordersTableBody">
+          <!-- Filled dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    const ctx = document.getElementById('salesChart').getContext('2d');
+    const salesChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [{
+          label: 'Sales (₱)',
+          data: [10, 20, 30, 10, 20, 50],
+          borderColor: '#2a5298',
+          backgroundColor: 'rgba(42, 82, 152, 0.1)',
+          fill: true,
+          tension: 0.4
+        }]
+      },
+      options: { responsive: true }
+    });
+
+    function renderEmployees() {
+      const employees = JSON.parse(localStorage.getItem("employees") || "[]");
+      const container = document.querySelector(".employee-grid");
+      const countDisplay = document.getElementById("employeeCount");
+      container.innerHTML = "";
+
+      if (employees.length === 0) {
+        container.innerHTML = "<p>No employees yet.</p>";
+        countDisplay.textContent = "0";
+        return;
+      }
+
+      countDisplay.textContent = employees.length;
+
+      employees.forEach(emp => {
+        const card = document.createElement("div");
+        card.className = "employee-card";
+        card.innerHTML = `
+          <img src="${emp.photo}" alt="${emp.fullName}" />
+          <div>
+            <h3>${emp.fullName}</h3>
+            <p>${emp.role || emp.position || 'Unknown'}</p>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function renderInventory() {
+      const tbody = document.querySelector(".inventory-table tbody");
+      const countDisplay = document.getElementById("inventoryCount");
+      const products = JSON.parse(localStorage.getItem("products") || "[]");
+      tbody.innerHTML = "";
+
+      if (products.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="3">No products yet.</td></tr>`;
+        countDisplay.textContent = "0";
+        return;
+      }
+
+      countDisplay.textContent = products.length;
+
+      products.forEach(product => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${product.name}</td>
+          <td>${product.quantity}</td>
+          <td>₱${parseFloat(product.price).toFixed(2)}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function updateSalesAmount() {
+      const totalSales = parseFloat(localStorage.getItem("totalSales") || "0");
+      document.getElementById("salesAmount").textContent =
+        `₱${totalSales.toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
+    }
+
+    function logout() {
+      const confirmLogout = confirm("Are you sure you want to logout?");
+      if (confirmLogout) {
+        alert("Logout successful!");
+        window.location.href = "logIn.html";
+      }
+    }
+
+    function renderCustomerOrders() {
+      const orders = JSON.parse(localStorage.getItem("customerOrders") || "[]");
+      const tbody = document.getElementById("ordersTableBody");
+      tbody.innerHTML = "";
+
+      if (orders.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6">No customer orders found.</td></tr>`;
+        return;
+      }
+
+      orders.forEach(order => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${order.id}</td>
+          <td>${order.name}</td>
+          <td>${order.address}</td>
+          <td>${order.email}</td>
+          <td>
+            <ul>
+              ${order.items.map(item => `<li>${item.qty} x ${item.name}</li>`).join("")}
+            </ul>
+          </td>
+          <td>₱${order.total.toFixed(2)}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    window.addEventListener("storage", (e) => {
+      if (e.key === "products") {
+        renderInventory();
+      } else if (e.key === "employees") {
+        renderEmployees();
+      } else if (e.key === "totalSales") {
+        updateSalesAmount();
+      } else if (e.key === "customerOrders") {
+        renderCustomerOrders();
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderEmployees();
+      renderInventory();
+      updateSalesAmount();
+      renderCustomerOrders();
+    });
+  </script>
+</body>
+</html>

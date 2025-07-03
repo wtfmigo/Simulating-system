@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cashier Panel | Brennan Fanatics</title>
+  <link rel="stylesheet" href="cashier.css" />
+</head>
+<body>
+  <div class="cashier-wrapper">
+    <button id="logoutBtn" class="logout-btn">Logout</button>
+    <h1>🛒 Cashier Panel</h1>
+
+    <!-- Product Grid -->
+    <div id="productContainer" class="product-list">
+      <!-- Rendered via JS -->
+    </div>
+
+    <!-- Checkout Area -->
+    <div class="checkout-section">
+      <h2>🧾 Receipt</h2>
+      <div id="receiptBox" class="receipt-box">
+        <p>No items yet.</p>
+      </div>
+
+      <!-- Customer Info -->
+      <label for="custName"><strong>👤 Name:</strong></label>
+      <input type="text" id="custName" placeholder="Customer name" />
+
+      <label for="custAddress"><strong>📍 Address:</strong></label>
+      <input type="text" id="custAddress" placeholder="Customer address" />
+
+      <label for="custEmail"><strong>📧 Email:</strong></label>
+      <input type="email" id="custEmail" placeholder="Customer email" />
+
+      <!-- Payment + Buttons -->
+      <label for="paymentInput"><strong>💵 Enter Payment:</strong></label>
+      <input type="number" id="paymentInput" placeholder="Enter payment amount" />
+
+      <div style="margin-top: 10px;">
+        <button id="checkoutBtn">✅ Checkout</button>
+        <button id="clearCartBtn" class="clear-cart-btn">🗑️ Clear Cart</button>
+      </div>
+    </div>
+
+    <!-- Purchase History -->
+    <div class="history-section">
+      <h2>📜 Purchase History</h2>
+      <div id="historyContainer" class="receipt-history">
+        <!-- Filled via JS -->
+      </div>
+    </div>
+  </div>
+
+  <script src="cashier.js" defer></script>
+</body>
+</html>
